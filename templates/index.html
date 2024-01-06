@@ -1,0 +1,31 @@
+{{define "Base"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTMX Go Todo</title>
+    <link rel="stylesheet" href="/static/index.css" />
+    <script src="/static/htmx.js" type="text/javascript"></script>
+  </head>
+
+  <body
+    class="bg-black text-green-500 flex justify-center items-center h-screen"
+  >
+    <div class="border-2 border-green-400 h-1/2">
+      <div class="text-4xl text-center">HTMX Go Todo</div>
+      <div class="text-center">
+        <form hx-post="/todo" hx-target="#todo-list">
+          <input
+            type="text"
+            name="todo"
+            placeholder="What needs to be done?"
+            class="text-black"
+          />
+        </form>
+      </div>
+      <div id="todo-list" class="text-center"></div>
+    </div>
+  </body>
+</html>
+{{end}}
