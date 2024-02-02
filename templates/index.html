@@ -4,27 +4,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HTMX Go Todo</title>
+    <title>{{.Title}}</title>
     <link rel="stylesheet" href="/static/index.css" />
     <script src="/static/htmx.js" type="text/javascript"></script>
+    <style>
+      .todo-list-container {
+        height: 500px;
+        overflow-y: auto;
+        /* I added this 'coz tailwind was not working'*/
+        list-style-type: none;
+      }
+    </style>
   </head>
 
   <body
     class="bg-black text-green-500 flex justify-center items-center h-screen"
   >
-    <div class="border-2 border-green-400 h-1/2">
-      <div class="text-4xl text-center">HTMX Go Todo</div>
-      <div class="text-center">
-        <form hx-post="/todo" hx-target="#todo-list">
-          <input
-            type="text"
-            name="todo"
-            placeholder="What needs to be done?"
-            class="text-black"
-          />
-        </form>
+    <div class="border-2 border-green-500 rounded-[20px] w-[1300px]">
+      <div class="text-4xl text-center pt-2">{{.Heading}}</div>
+      <div class="text-center" hx-get="/todos" hx-target=".todo-list-container">
+        {{if .Todos}}
+        <ul class="todo-list-container flex flex-col gap-40">
+          {{range .Todos}}
+          <li class="">
+            {{.Title}}
+            <span>X</span>
+          </li>
+          {{end}}
+        </ul>
+        {{else}}
+        <p>No todos available.</p>
+        {{end}}
       </div>
-      <div id="todo-list" class="text-center"></div>
+      <form hx-post="/todos" hx-target=".todo-list-container" class="pt-2">
+        <input
+          type="text"
+          name="Title"
+          placeholder="What needs to be done?"
+          class="text-black"
+        />
+        <button type="submit">Add to do</button>
+      </form>
     </div>
   </body>
 </html>
